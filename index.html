@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Apricate</title>
+<meta name="description" content="A new way to plan your kids' summer together with their friends' families. Beta opens in January.">
+<!-- Stealth page: keep it out of search results until launch. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#F3F8F0">
+<!-- Figtree from Google Fonts (approved external request; visitors' browsers contact Google to load it). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap">
+<script>document.documentElement.classList.add("js")</script>
+<style>
+  :root {
+    /* Two tones only: soft mint and bright green (plus tints of the green) */
+    --bg: #F3F8F0;
+    --ink: #0B6B43;
+    --ink-soft: rgba(11, 107, 67, .62);
+    --line: rgba(11, 107, 67, .25);
+    --ph: rgba(11, 107, 67, .06);
+    --inverse-bg: #0B6B43;
+    --inverse-ink: #F3F8F0;
+    --inverse-soft: rgba(243, 248, 240, .7);
+    --sans: Figtree, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+  /* Header: wordmark only */
+  .top { text-align: center; padding-top: 20px; padding-bottom: 20px; }
+  .wordmark { font-size: 22px; font-weight: 500; letter-spacing: -.02em; }
+
+  /* Wireframe placeholders: swap for final imagery */
+  .ph { position: relative; display: grid; place-items: center; background-color: var(--ph); border: 1px solid var(--line); color: var(--ink-soft); font-size: 12px; text-align: center;
+    background-image: linear-gradient(to top right, transparent calc(50% - .5px), var(--line) calc(50% - .5px), var(--line) calc(50% + .5px), transparent calc(50% + .5px)),
+                      linear-gradient(to top left, transparent calc(50% - .5px), var(--line) calc(50% - .5px), var(--line) calc(50% + .5px), transparent calc(50% + .5px)); }
+  .ph span { background: var(--ph); padding: 4px 8px; max-width: 80%; }
+
+  /* Summer objects: a GIF-style loop of cut-out photos between the logo and the first sentence */
+  .summer { display: flex; justify-content: center; padding-top: 20px; }
+  .cycle { position: relative; width: clamp(140px, 34vw, 220px); aspect-ratio: 1; }
+  /* --s scales an image down inside the frame for objects that read too large */
+  .cycle img { position: absolute; inset: calc((1 - var(--s, 1)) * 50%); width: calc(var(--s, 1) * 100%); height: calc(var(--s, 1) * 100%); object-fit: contain; opacity: 0; }
+  .cycle img.on { opacity: 1; }
+
+  .manifesto { padding-top: 32px; padding-bottom: 72px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* Manifesto column */
+  .col { max-width: 560px; margin: 0 auto; }
+  .intro { font-size: clamp(24px, 6vw, 32px); line-height: 1.25; letter-spacing: -.015em; margin: 0; }
+
+  /* "Apri" with a playful definition tooltip (hover, keyboard focus, or tap) */
+  /* Pronunciation: (ah-pree) with a little smile over "ah" and an accent over "pree" */
+  .say { color: color-mix(in srgb, currentColor 55%, transparent); font-weight: inherit; white-space: nowrap; }
+  .soft, .stress { position: relative; display: inline-block; }
+  .soft::before { content: ""; position: absolute; left: 50%; top: -.1em; width: .46em; height: .2em; margin-left: -.23em; border: .075em solid var(--ink); border-top: 0; border-radius: 0 0 1em 1em; }
+  .stress::before { content: ""; position: absolute; left: 50%; top: -.06em; width: .42em; height: 0; margin-left: -.1em; border-radius: 1em; border-top: .075em solid var(--ink); transform: rotate(-30deg); }
+  .term-wrap { position: relative; display: inline-block; }
+  .term { font: inherit; letter-spacing: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: help;
+    text-decoration: underline dotted; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  .term:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+  .tip { position: absolute; left: 0; bottom: calc(100% + 12px); z-index: 10; width: 280px; max-width: calc(100vw - 40px);
+    background: var(--inverse-bg); color: var(--inverse-ink); border-radius: 12px; padding: 14px 16px;
+    font-size: 15px; line-height: 1.4; letter-spacing: 0; text-align: left;
+    opacity: 0; visibility: hidden; transform: translateY(4px); transition: opacity .15s ease, transform .15s ease, visibility .15s; }
+  .tip::after { content: ""; position: absolute; left: 18px; top: 100%; border: 7px solid transparent; border-top-color: var(--inverse-bg); }
+  .tip b { font-weight: 500; font-size: 17px; }
+  .tip .tip-pron { color: var(--inverse-soft); }
+  .tip i { color: var(--inverse-soft); }
+  .term:focus-visible + .tip, .term-wrap.open .tip { opacity: 1; visibility: visible; transform: none; }
+  @media (hover: hover) { .term-wrap:hover .tip { opacity: 1; visibility: visible; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+  .belief { margin-top: 48px; }
+  .belief p:not(.label) { font-size: clamp(24px, 6vw, 32px); line-height: 1.25; letter-spacing: -.015em; margin: 0; }
+
+  /* Scattered imagery, offset left and right */
+  .scatter { display: flex; margin: 48px 0 0; }
+  .scatter .ph { width: 48%; }
+  .scatter.right { justify-content: flex-end; }
+  .scatter.tall .ph { aspect-ratio: 3 / 4; }
+  .scatter.wide .ph { aspect-ratio: 4 / 3; width: 62%; }
+  .scatter.sketch .ph { aspect-ratio: 1; width: 34%; border-style: dashed; background-image: none; }
+
+
+  /* Request access: the only action on the page */
+  /* CLOSING: request access inside the dark footer, the page's final, big moment */
+  .define { background: var(--inverse-bg); color: var(--inverse-ink); padding: 104px 0 24px; overflow: hidden; }
+  .define .lead { margin: 0 0 36px; font-size: clamp(17px, 5.4vw, 34px); line-height: 1.12; letter-spacing: -.03em; font-weight: 500; text-wrap: balance;
+    opacity: 0; transform: translateY(16px); transition: opacity .8s ease, transform .8s cubic-bezier(.2, .7, .2, 1); }
+  .define.in .lead { opacity: 1; transform: none; }
+  .access form { display: flex; flex-direction: column; gap: 14px; }
+  .access label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .access input { font: inherit; font-size: 20px; padding: 14px 0; border: 0; border-bottom: 1.5px solid var(--inverse-ink); background: transparent; color: var(--inverse-ink); border-radius: 0; }
+  .access input::placeholder { color: var(--inverse-soft); }
+  .access input:focus { outline: none; border-bottom-width: 2.5px; }
+  .access button { font: inherit; font-size: 18px; font-weight: 600; padding: 18px 32px; border: 0; border-radius: 999px; background: var(--inverse-ink); color: var(--inverse-bg); cursor: pointer; align-self: flex-start;
+    opacity: 0; transform: scale(.6); transition: transform .6s cubic-bezier(.34, 1.56, .64, 1) .45s, opacity .3s ease .45s, background .2s ease; }
+  .define.in .access button { opacity: 1; transform: none; }
+  .access button:hover { background: rgba(243, 248, 240, .85); }
+  .form-note { font-size: 15px; color: var(--inverse-soft); margin: 14px 0 0; min-height: 1.4em; }
+  /* Success: the form steps aside and the confirmation pops in with a ring pulsing out behind it */
+  .access.done form { display: none; }
+  .form-note.ok { position: relative; display: inline-block; margin-top: 0; color: var(--inverse-ink); font-size: clamp(32px, 8.4vw, 64px); line-height: 1.08; letter-spacing: -.03em; font-weight: 600; animation: pop .7s cubic-bezier(.34, 1.56, .64, 1); }
+  .form-note.ok small { display: block; margin-top: 10px; font-size: 17px; font-weight: 400; letter-spacing: 0; color: var(--inverse-soft); }
+  .form-note.ok::before { content: ""; position: absolute; left: .6em; top: .55em; width: 1em; height: 1em; margin: -.5em 0 0 -.5em; border-radius: 50%; border: 2px solid var(--inverse-ink); opacity: 0; animation: ring 1s ease-out .15s; pointer-events: none; }
+  @keyframes pop { 0% { opacity: 0; transform: scale(.7); } 100% { opacity: 1; transform: none; } }
+  @keyframes ring { 0% { opacity: .8; transform: scale(.4); } 100% { opacity: 0; transform: scale(6); } }
+  .fine { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; margin-top: 104px; padding-top: 16px; border-top: 1px solid rgba(243, 248, 240, .22); font-size: 12px; color: var(--inverse-soft); }
+
+  @media (min-width: 640px) {
+    .access form { flex-direction: row; align-items: flex-end; gap: 20px; }
+    .access input { flex: 1; min-width: 0; }
+    .access button { margin-top: 0; }
+  }
+  @media (min-width: 900px) {
+    .wrap { padding-left: 32px; padding-right: 32px; }
+    .manifesto { padding-top: 48px; }
+    /* On wide screens the scattered images break out of the text column */
+    .scatter { margin-left: -180px; margin-right: -180px; }
+    .scatter .ph { width: 300px; }
+    .scatter.wide .ph { width: 380px; }
+    .scatter.sketch .ph { width: 180px; }
+    .define { padding-top: 144px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .define .lead, .access button { opacity: 1; transform: none; transition: none; }
+    .form-note.ok, .form-note.ok::before { animation: none; }
+  }
+  /* Page-load + scroll reveal: text fades up into place. --d staggers the first screen. */
+  .js .rise { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s cubic-bezier(.2, .7, .2, 1); transition-delay: var(--d, 0s); }
+  .js .rise.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .js .rise { opacity: 1; transform: none; transition: none; } }
+</style>
+</head>
+<body>
+
+<header class="wrap top rise">
+  <span class="wordmark">Meet apri</span>
+</header>
+
+<!-- Summer objects, swapping every second on a loop (decorative) -->
+<div class="wrap summer rise" style="--d:.12s" aria-hidden="true">
+  <div class="cycle" id="cycle">
+    <img src="img/06-ice-cream.png" alt="" style="--s:.75" class="on">
+    <img src="img/01-bandages.png" alt="" style="--s:.75">
+    <img src="img/02-baseball.png" alt="" style="--s:.6">
+    <img src="img/03-dandelion.png" alt="">
+    <img src="img/04-sunglasses.png" alt="">
+    <img src="img/05-paper-boat.png" alt="">
+    <img src="img/07-friendship-bracelet.png" alt="" style="--s:.75">
+  </div>
+</div>
+
+<main>
+  <!-- MANIFESTO (no visible headline; the h1 is for screen readers and page structure) -->
+  <section class="wrap manifesto" aria-labelledby="page-title">
+    <h1 class="sr-only" id="page-title">apri</h1>
+    <div class="col">
+      <p class="intro rise" style="--d:.24s"><span class="term-wrap"><button type="button" class="term" aria-describedby="apri-tip">apri</button><span class="tip" role="tooltip" id="apri-tip"><b>apricate</b> <span class="tip-pron">/&#712;ap-r&#601;-&#716;k&#257;t/</span> <i>verb</i><br>To bask in the sun. Which is exactly what you'll be doing once summer's sorted.</span></span> <span class="say">(<span class="soft">ah</span>-<span class="stress">pree</span>)</span> is a new way to coordinate your summer childcare plans with your kids' best friends.</p>
+
+      <div class="belief rise" style="--d:.36s">
+        <p>Whether you are a working parent or full-time parent, you already have a full-time job. Planning for summer shouldn't become your night shift.</p>
+      </div>
+
+      <div class="belief rise">
+        <p>Every January, it starts: the spreadsheet, the 7am registration alarm, the camp lotteries, the group text that hits 46 messages before lunch. Somebody in your friend group becomes the unpaid summer coordinator. It's probably you.</p>
+      </div>
+
+      <div class="belief rise">
+        <p>apri visualizes everyone's plans for each week in one private space, books your camps the second registration opens, and surfaces gaps with solutions.</p>
+      </div>
+
+      <div class="belief rise">
+        <p>The kids get their friends. You get your evenings back.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- CLOSING: request access (the only action on the page) inside the dark footer -->
+<footer class="define" id="closing">
+  <div class="wrap">
+    <section class="col access" id="access" aria-label="Request access">
+      <p class="lead">We're opening apri to a small group of families this January. Leave your email and we'll be in touch.</p>
+      <form class="waitlist" data-direction="manifesto" novalidate>
+        <label for="email-access">Email address</label>
+        <input id="email-access" type="email" name="email" placeholder="you@email.com" autocomplete="email" inputmode="email" required>
+        <button type="submit">Request access</button>
+      </form>
+      <p class="form-note" role="status" aria-live="polite"></p>
+    </section>
+    <div class="fine"><span>&copy; Apricate</span><span>Coming Soon</span></div>
+  </div>
+</footer>
+
+<script>
+  // Reveal: fade text up on load, then each block as it scrolls onto the screen.
+  // A plain scroll check (no observers) so nothing can get stuck hidden.
+  (function () {
+    var els = Array.prototype.slice.call(document.querySelectorAll('.rise'));
+    function reveal() {
+      els = els.filter(function (el) {
+        if (el.getBoundingClientRect().top < innerHeight * 0.92) { el.classList.add('in'); return false; }
+        return true;
+      });
+      if (!els.length) { removeEventListener('scroll', reveal); removeEventListener('resize', reveal); }
+    }
+    addEventListener('scroll', reveal, { passive: true });
+    addEventListener('resize', reveal);
+    setTimeout(reveal, 60);  // one frame after first paint, so the load animation actually plays
+  })();
+
+  // Summer objects: swap to the next image every second, looping. Holds still for reduced motion.
+  (function () {
+    var imgs = document.querySelectorAll('#cycle img'), i = 0;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || imgs.length < 2) return;
+    setInterval(function () {
+      imgs[i].classList.remove('on');
+      i = (i + 1) % imgs.length;
+      imgs[i].classList.add('on');
+    }, 1000);
+  })();
+
+  // Apri tooltip: tap toggles it on touch screens; Escape or a tap elsewhere closes it.
+  (function () {
+    var wrap = document.querySelector('.term-wrap');
+    var btn = wrap.querySelector('.term');
+    btn.addEventListener('click', function (ev) { ev.stopPropagation(); wrap.classList.toggle('open'); });
+    document.addEventListener('click', function () { wrap.classList.remove('open'); });
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape') { wrap.classList.remove('open'); btn.blur(); }
+    });
+  })();
+
+  // Request access: each sign-up is sent to the "Apri Beta Access" Google Form, which feeds a Google Sheet.
+  // Google doesn't let the page read its reply (no-cors), so a sent request counts as success;
+  // check the Sheet to confirm sign-ups land.
+  (function () {
+    var FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScd6AMDYtLsSPG_DTBs91I2m848ANIfrQJeBvIrkkM6mK3E_Q/formResponse';
+    var EMAIL_FIELD = 'entry.717871741';  // "What is your email?"
+    var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // The closing section pops in once its top is 80% of the way up the screen.
+    // A plain scroll check (no observers) so the only sign-up on the page can never stay hidden.
+    var closing = document.getElementById('closing');
+    function showClosing() {
+      if (closing.getBoundingClientRect().top < innerHeight * 0.8) { closing.classList.add('in'); removeEventListener('scroll', showClosing); removeEventListener('resize', showClosing); }
+    }
+    addEventListener('scroll', showClosing, { passive: true });
+    addEventListener('resize', showClosing);
+    showClosing();
+
+    document.querySelectorAll('form.waitlist').forEach(function (form) {
+      var note = form.nextElementSibling;
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var input = form.querySelector('input[type=email]');
+        var email = input.value.trim().toLowerCase();
+        if (!EMAIL_RE.test(email)) {
+          note.textContent = 'Please enter a valid email address.';
+          note.className = 'form-note err';
+          input.focus();
+          return;
+        }
+        var button = form.querySelector('button');
+        button.disabled = true;
+        note.textContent = 'Sending\u2026';
+        note.className = 'form-note';
+        var body = new URLSearchParams();
+        body.append(EMAIL_FIELD, email);
+        fetch(FORM_URL, { method: 'POST', mode: 'no-cors', body: body })
+          .then(function () {
+            form.reset();
+            note.innerHTML = "You're on the list.<small>We'll be in touch before January.</small>";
+            note.className = 'form-note ok';
+            form.parentNode.classList.add('done');
+          })
+          .catch(function () {
+            note.textContent = "Something went wrong. Please check your connection and try again.";
+            note.className = 'form-note err';
+          })
+          .then(function () { button.disabled = false; });
+      });
+    });
+  })();
+</script>
+</body>
+</html>
