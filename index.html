@@ -3,7 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Apricate</title>
+<title>apri (ah-pree)</title>
+<!-- Favicon: the ice cream everywhere; Chrome, Edge and Firefox then cycle through the summer objects (see script below). -->
+<link rel="icon" type="image/png" href="img/icons/06-ice-cream.png" id="favicon">
+<link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
 <meta name="description" content="A new way to plan your kids' summer together with their friends' families. Beta opens in January.">
 <!-- Stealth page: keep it out of search results until launch. -->
 <meta name="robots" content="noindex, nofollow">
@@ -216,6 +219,16 @@
     addEventListener('scroll', reveal, { passive: true });
     addEventListener('resize', reveal);
     setTimeout(reveal, 60);  // one frame after first paint, so the load animation actually plays
+  })();
+
+  // Favicon: step the tab icon through the same summer objects, once a second, in the same order.
+  // Browsers don't animate GIF favicons (except Firefox), so this swaps the icon instead. Safari ignores it and keeps the ice cream.
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var link = document.getElementById('favicon'), i = 0;
+    var ICONS = ['06-ice-cream', '01-bandages', '02-baseball', '03-dandelion', '04-sunglasses', '05-paper-boat', '07-friendship-bracelet']
+      .map(function (n) { var src = 'img/icons/' + n + '.png'; new Image().src = src; return src; });  // preload so swaps don't flash
+    setInterval(function () { i = (i + 1) % ICONS.length; link.href = ICONS[i]; }, 1000);
   })();
 
   // Summer objects: swap to the next image every second, looping. Holds still for reduced motion.
